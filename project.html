@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Project: The journey to Joy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <nav>
+                <div class="logo">
+                    <a href="index.html" style="background-color: transparent;"><img src="website/images/logo.png"></a>
+                </div>
+                <div class="nav-links"> 
+                    <ul>
+                        <li><a href="about.html" target="_blank">ABOUT US</a></li>
+                        <li><a href="https://openlibrary.org/" target="_blank">RESOURCES</a></li>
+                        <li><a href="https://coffeeforme.mystrikingly.com/" target="_blank">DONATE</a></li>
+                        <li><a href="https://www.reddit.com/r/Damnthatsinteresting/comments/16z25yx/volcano_tourism_in_iceland/" target="_blank">CONTACT & SUPPORT</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="information">
+            <div class="section one" style="opacity: 1; transform: translateX(0);">
+                    <div class="icon">
+                          <a href="https://nhasachmienphi.com/doc-online/dac-nhan-tam-322410" target="_blank"><img src="website/images/article.png"></a>
+                    </div>
+                    <div class="text">
+                        <h1>Blog/Articles</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="section two">
+                    <div class="icon">
+                        <a href="https://www.youtube.com/watch?v=dz6xe0xXqYE" target="_blank"><img src="website/images/music.png"></a>
+                    </div>
+                    <div class="text">
+                        <h1>Music</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="section three">
+                    <div class="icon">
+                        <a href="https://www.youtube.com/watch?v=fUEjCXpOjPY" target="_blank"><img src="website/images/headphone.png"></a>
+                    </div>
+                    <div class="text">
+                        <h1>Podcast</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="section four">
+                    <div class="icon">
+                        <a href="https://www.facebook.com/" target="_blank"><img src="website/images/sharing.png"></a>
+                    </div>
+                    <div class="text">
+                        <h1>Sharing</h1>
+                    </div>
+                </a>
+            </div>
+        </div>        
+        <div id="blur-background"></div>
+        <div class="controls">
+            <img src="website/images/arrow.png" id="leftBtn" style="display: none;">
+            <img src="website/images/arrow.png" id="rightBtn" style="display: none;">
+        </div>
+    </div>
+    <img src="website/images/hands.png" alt="Camera in hands Image" id="hands">
+    <button id="exitButton" style="display: none;">EXIT</button>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    var handsImage = document.getElementById("hands");
+    var blurBackground = document.getElementById("blur-background");
+    var lcdImage = null;
+    var isRotated = false;
+    var isFirstClick = true;
+    var exitButton = document.getElementById("exitButton");
+    var information = document.querySelector(".information");
+    var rightBtn = document.getElementById("rightBtn"); // Include rightBtn
+    var leftBtn = document.getElementById("leftBtn"); // Include leftBtn
+
+    handsImage.addEventListener("click", function () {
+        if (isFirstClick) {
+            // On the first click, rotate and move the "hands.png" 
+            handsImage.style.transform = "rotate(0deg)";
+            handsImage.style.position = "fixed";
+            handsImage.style.left = "calc(50% - 500px)";
+            handsImage.style.bottom = "-250px";
+            handsImage.style.width = "1000px";
+            handsImage.style.height = "auto";
+
+            // Toggle the rotation state and click state
+            isRotated = true;
+            isFirstClick = false;
+        } else {
+            // On subsequent clicks, add the CSS class for smooth transition to "hands.png"
+            handsImage.classList.add("smooth-transition");
+
+            // Gradually move and rotate the "hands.png"
+            handsImage.style.transform = "rotate(0deg) translate(0, 0)";
+            handsImage.style.opacity = "0";
+
+            // Show the blurred background smoothly
+            blurBackground.style.transition = "filter 1s ease-in-out";
+            blurBackground.style.filter = "blur(5px)"; // Apply the blur effect
+
+            setTimeout(function () {
+                // Hide the "hands.png" image after the transition
+                handsImage.style.display = "none";
+            }, 2000); // Delay for a smoother effect
+
+            if (lcdImage === null) {
+                // Create and insert the "lcd.png" image
+                lcdImage = document.createElement("img");
+                lcdImage.src = "website/images/lcd.png";
+                lcdImage.alt = "Lcd screen of a camera";
+                lcdImage.id = "lcd-screen";
+                lcdImage.style.position = "fixed";
+                lcdImage.style.left = "50%";
+                lcdImage.style.top = "50%";
+                lcdImage.style.transform = "translate(-50%, -50%) scale(1.5)"; // Increase size by 2 times
+                lcdImage.style.zIndex = "";
+
+                // Add the CSS class for smooth transition to "lcd.png"
+                lcdImage.classList.add("smooth-transition");
+
+                // Initially, make it transparent
+                lcdImage.style.opacity = "0";
+                document.body.appendChild(lcdImage);
+
+                // Smoothly fade in the "lcd.png" image
+                setTimeout(function () {
+                    lcdImage.style.opacity = "1";
+                    setTimeout(function () {information.style.opacity = "1";}, 600);  // Set information class opacity to 1
+                    exitButton.style.display = "block";
+                    rightBtn.style.display = "block";
+                    leftBtn.style.display = "block";
+                }, 700); // Delay for a smoother effect
+            } else {
+                // Show the existing "lcd.png" image smoothly
+                lcdImage.style.transition = "opacity 2s ease-in-out";
+                lcdImage.style.opacity = "1"; // Ensure opacity is set to 1
+            }
+        }
+    });
+
+    exitButton.addEventListener("click", function () {
+        // Remove the "Exit" button immediately
+        exitButton.style.display = "none";
+        rightBtn.style.display = "none";
+        leftBtn.style.display = "none";
+        // Reset the blurred background first
+        blurBackground.style.filter = "blur(0px)";
+
+        // Remove the "lcd.png" image if it exists
+        if (lcdImage !== null) {
+            // Gradually fade out the "lcd.png" image
+            lcdImage.style.transition = "opacity 2s ease-in-out";
+            lcdImage.style.opacity = "0";
+            setTimeout(function () {
+                lcdImage.remove();
+                lcdImage = null;
+
+                // Reset to the initial state after the "lcd.png" image is removed
+                handsImage.style.transition = "none"; // Remove any transition effects
+                handsImage.style.transform = "rotate(0deg)";
+                handsImage.style.position = "fixed";
+                handsImage.style.left = "calc(50% - 500px)";
+                handsImage.style.bottom = "-250px";
+                handsImage.style.width = "1000px";
+                handsImage.style.height = "auto";
+                handsImage.style.display = "block";
+                handsImage.style.opacity = "1";
+                // Reset state flags
+                isRotated = false;
+                isFirstClick = true;
+                // Reset information class opacity to 0
+                information.style.opacity = "0";
+            }, 400); // Delay for 2 seconds to allow the "lcd.png" animation to complete
+        }
+    });
+});
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+    var sections = document.querySelectorAll(".section");
+    var currentIndex = 0; // Index of the currently displayed section
+
+    document.getElementById("leftBtn").addEventListener("click", function () {
+        hideSection(currentIndex);
+        currentIndex = (currentIndex - 1 + sections.length) % (sections.length);
+        showSection(currentIndex);
+    });
+
+    document.getElementById("rightBtn").addEventListener("click", function () {
+        hideSection(currentIndex);
+        currentIndex = (currentIndex + 1) % sections.length;
+        showSection(currentIndex);
+    });
+
+    function showSection(index) {
+        sections[index].style.opacity = "1";
+
+        // Calculate a decreasing horizontal limit for each section with equal limits on both sides
+        var limit = (sections.length - index + 1) * 15; // Adjust the multiplier as needed
+
+        // Apply the transform with the calculated limit
+        sections[index].style.transform = `translateX(${-limit}%)`;
+    }
+
+    function hideSection(index) {
+        sections[index].style.opacity = "0";
+
+        // Calculate a decreasing horizontal limit for each section with equal limits on both sides
+        var limit = (sections.length - index - 1) * 15; // Adjust the multiplier as needed
+
+        // Apply the transform with the calculated limit
+        sections[index].style.transform = `translateX(${limit}%)`;
+    }
+
+    showSection(currentIndex);
+});
+    </script>
+</body>
+</html>
